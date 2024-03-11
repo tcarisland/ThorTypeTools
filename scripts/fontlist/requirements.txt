@@ -1,3 +1,4 @@
 # requirements.txt
 fonttools
 pytest  # Include pytest for testing
+python-dotenv
