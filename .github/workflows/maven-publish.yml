@@ -28,9 +28,9 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
-      run: cd fontinspector && mvn -B package --file pom.xml
+      run: cd fontinspector && mvn -B package --file pom.xml -Djava.awt.headless=true
 
     - name: Publish to GitHub Packages Apache Maven
-      run: cd fontinspector && mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: cd fontinspector && mvn deploy -s $GITHUB_WORKSPACE/settings.xml -Djava.awt.headless=true
       env:
         GITHUB_TOKEN: ${{ github.token }}
