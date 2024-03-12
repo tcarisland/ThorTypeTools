@@ -8,13 +8,20 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class FontinspectorApplication {
 
 	public static void main(String[] args) {
+		initProperties();
+		SpringApplicationBuilder builder = initBuilder();
+		builder.run(args);
+	}
 
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		System.setProperty(
-				"com.apple.mrj.application.apple.menu.about.name", "Name");
+	public static SpringApplicationBuilder initBuilder() {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(FontinspectorApplication.class);
 		builder.headless(false);
-		builder.run(args);
+		return builder;
+	}
+
+	public static void initProperties() {
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Name");
 	}
 
 }
