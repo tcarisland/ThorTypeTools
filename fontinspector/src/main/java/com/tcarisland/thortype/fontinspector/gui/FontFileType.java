@@ -1,6 +1,7 @@
 package com.tcarisland.thortype.fontinspector.gui;
 
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,5 +25,13 @@ public enum FontFileType {
                 .toList();
         String[] extensions = new String[extensionList.size()];
         return extensionList.toArray(extensions);
+    }
+
+    public static FontFileType fromExtension(String extension) {
+        return Arrays
+                .stream(values())
+                .filter(u -> StringUtils.equalsIgnoreCase(u.getExtension(), extension))
+                .findAny()
+                .orElse(null);
     }
 }
