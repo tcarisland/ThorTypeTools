@@ -1,7 +1,7 @@
 package com.tcarisland.thortype.fontinspector.gui;
 
 import com.tcarisland.thortype.fontinspector.FontInspectorEventHandler;
-import lombok.Getter;
+import com.tcarisland.thortype.fontinspector.types.FontFileType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,9 +11,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j

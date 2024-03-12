@@ -1,6 +1,6 @@
 package com.tcarisland.thortype.fontinspector;
 
-import com.tcarisland.thortype.fontinspector.gui.FontFileType;
+import com.tcarisland.thortype.fontinspector.types.FontFileType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.fontbox.ttf.OTFParser;
@@ -53,7 +53,7 @@ public class FontInspectorEventHandler {
     public void openOpenType(File file) throws IOException {
         OTFParser otfParser = new OTFParser();
         OpenTypeFont font = otfParser.parse(file);
-        eventListener.handleOpenTypeFont(font);
+        eventListener.handleTrueTypeFont(font);
     }
 
 }

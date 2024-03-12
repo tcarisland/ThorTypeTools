@@ -19,12 +19,6 @@ public class FontInspectorEventListener {
 
     private FontInspectorGUI fontInspectorGUI;
 
-    public void handleOpenTypeFont(OpenTypeFont openTypeFont) {
-        log.info("font opened {}", openTypeFont);
-        Map<String, TTFTable> map = openTypeFont.getTableMap();
-        this.fontInspectorGUI.updateContentPane(openTypeFont, map);
-    }
-
     public void handleTrueTypeFont(TrueTypeFont trueTypeFont) {
         log.info("font opened {}", trueTypeFont);
         Map<String, TTFTable> map = trueTypeFont.getTableMap();

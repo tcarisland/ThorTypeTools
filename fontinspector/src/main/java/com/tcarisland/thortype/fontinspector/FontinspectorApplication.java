@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class FontinspectorApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("java.awt.headless", "false");
 		initProperties();
 		SpringApplicationBuilder builder = initBuilder();
 		builder.run(args);
