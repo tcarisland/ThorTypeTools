@@ -69,4 +69,12 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>thortypetools</id>
+			<name>Repository Name</name>
+			<url>https://github.com/tcarisland/thortypetools</url>
+		</repository>
+	</distributionManagement>
+
 </project>
