@@ -31,6 +31,6 @@ jobs:
       run: cd fontinspector && mvn -B package --file pom.xml -Djava.awt.headless=false
 
     - name: Publish to GitHub Packages Apache Maven
-      run: cd fontinspector && mvn deploy -s $GITHUB_WORKSPACE/settings.xml -Djava.awt.headless=false
+      run: mvn deploy -s $GITHUB_WORKSPACE/fontinspector/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
