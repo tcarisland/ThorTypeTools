@@ -77,7 +77,7 @@ public class FontInspectorGUI {
 
     public boolean isWindows() {
         String osName = System.getProperty("os.name");
-        boolean isWindows = osName.toLowerCase().indexOf("win") >= 0;
+        boolean isWindows = osName.toLowerCase().contains("win");
         log.info("os.name {}", osName);
         log.info("is windows {}", isWindows);
         return isWindows;
