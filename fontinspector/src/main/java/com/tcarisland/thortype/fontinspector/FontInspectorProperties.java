@@ -15,4 +15,7 @@ public class FontInspectorProperties {
     @Value("${height}")
     private int height;
 
+    @Value("${basedir}")
+    private String basedir;
+
 }
