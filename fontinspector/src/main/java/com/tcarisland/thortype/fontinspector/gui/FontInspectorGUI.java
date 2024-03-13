@@ -2,6 +2,7 @@ package com.tcarisland.thortype.fontinspector.gui;
 
 import com.tcarisland.thortype.fontinspector.FontInspectorEventListener;
 import com.tcarisland.thortype.fontinspector.FontInspectorProperties;
+import com.tcarisland.thortype.fontinspector.gui.components.FontInspectorPanel;
 import com.tcarisland.thortype.fontinspector.gui.components.FontTableList;
 import com.tcarisland.thortype.fontinspector.gui.lookandfeel.LookAndFeelHelper;
 import com.tcarisland.thortype.fontinspector.services.TableTreeService;
@@ -24,8 +25,7 @@ public class FontInspectorGUI {
     private final TableTreeService tableTreeService;
     private final FontInspectorProperties properties;
     private JFrame fontInspectorFrame;
-    private JPanel mainContentPane;
-    private FontTableList tableListPane;
+    private FontInspectorPanel mainContentPane;
 
     public FontInspectorGUI(@Autowired FontInspectorProperties properties,
                             @Autowired FontInspectorMenuFactory menuFactory,
@@ -45,10 +45,10 @@ public class FontInspectorGUI {
                 }
                 frame.setJMenuBar(menuFactory.initMenu(frame.getRootPane()));
                 eventListener.setFontInspectorGUI(this);
-                this.mainContentPane = initContentPane();
-                this.tableListPane = initTableListPane();
-                this.mainContentPane.add(this.tableListPane.getTableListPanel(), BorderLayout.WEST);
-                frame.setContentPane(this.mainContentPane);
+                this.mainContentPane = new FontInspectorPanel();
+                JTree emptyTree = new JTree(new DefaultMutableTreeNode("no font selected"));
+                this.mainContentPane.getTableListPanel().getTableTree().setModel(emptyTree.getModel());
+                frame.setContentPane(this.mainContentPane.getFontInspectorPanel());
                 this.fontInspectorFrame = frame;
                 frame.repaint();
                 frame.setVisible(true);
@@ -58,24 +58,11 @@ public class FontInspectorGUI {
         });
     }
 
-    public JPanel initContentPane() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        return panel;
-    }
-
-    public FontTableList initTableListPane() {
-        JTree emptyTree = new JTree(new DefaultMutableTreeNode("no font selected"));
-        FontTableList fontTableList = new FontTableList();
-        fontTableList.getTableTree().setModel(emptyTree.getModel());
-        return fontTableList;
-    }
-
     public void updateContentPane(TrueTypeFont font, Map<String, TTFTable> map) {
         try {
             log.info("update content pane called {}", String.join(" ", map.keySet()));
-            this.tableListPane.getTableTree().removeAll();
-            this.tableListPane.getTableTree().setModel(tableTreeService.createJTreeFromHashMap(font.getName(), map).getModel());
+            this.mainContentPane.getTableListPanel().getTableTree().removeAll();
+            this.mainContentPane.getTableListPanel().getTableTree().setModel(tableTreeService.createJTreeFromHashMap(font.getName(), map).getModel());
             this.fontInspectorFrame.revalidate();
             this.fontInspectorFrame.repaint();
         } catch (IOException e) {
