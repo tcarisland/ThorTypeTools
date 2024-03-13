@@ -46,8 +46,7 @@ public class FontInspectorGUI {
                 frame.setJMenuBar(menuFactory.initMenu(frame.getRootPane()));
                 eventListener.setFontInspectorGUI(this);
                 this.mainContentPane = new FontInspectorPanel();
-                JTree emptyTree = new JTree(new DefaultMutableTreeNode("no font selected"));
-                this.mainContentPane.getTableListPanel().getTableTree().setModel(emptyTree.getModel());
+                this.mainContentPane.getTableListPanel().getTableTree().setModel(tableTreeService.createDefaultTree().getModel());
                 frame.setContentPane(this.mainContentPane.getFontInspectorPanel());
                 this.fontInspectorFrame = frame;
                 frame.repaint();

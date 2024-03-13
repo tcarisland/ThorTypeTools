@@ -16,8 +16,4 @@ public class FontTableList {
     private JPanel tableListPanel;
     private JTree tableTree;
 
-    public void createTable(Map<String, TTFTable> tableMap) {
-        Hashtable<String, TTFTable> hashtable = (Hashtable<String, TTFTable>) Collections.synchronizedMap(tableMap);
-
-    }
 }

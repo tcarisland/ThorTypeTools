@@ -16,6 +16,11 @@ import java.util.Objects;
 @Data
 @Slf4j
 public class TableTreeService {
+
+    public JTree createDefaultTree() {
+        return new JTree(new DefaultMutableTreeNode("no font selected"));
+    }
+
     public JTree createJTreeFromHashMap(String name, Map<String, TTFTable> hashMap) {
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(name);
         for (Map.Entry<String, TTFTable> entry : hashMap.entrySet()) {
@@ -35,7 +40,6 @@ public class TableTreeService {
                 field.setAccessible(true);
                 String parent = field.getName();
                 DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode(parent);
-                String fieldData = "" + field.get(table);
                 tableRootNode.add(parentNode);
                 Object child = field.get(table);
                 log.info("child class {} {} {}", field.getName(), field.getType(), child != null ? child.getClass() : null);
