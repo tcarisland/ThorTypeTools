@@ -33,7 +33,9 @@ public class FontInspectorListenerFactory {
     private void openFile(JComponent parent) {
         JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView());
         FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("fonts", FontFileType.extensions());
-        fileChooser.setCurrentDirectory(Paths.get(properties.getBasedir()).toFile());
+        String basepath = properties.getBasedir();
+        log.info("basepath {}", basepath);
+        fileChooser.setCurrentDirectory(Paths.get(basepath).toFile());
         fileChooser.setFileFilter(fileNameExtensionFilter);
         int response = fileChooser.showOpenDialog(parent);
         if(response == JFileChooser.APPROVE_OPTION) {

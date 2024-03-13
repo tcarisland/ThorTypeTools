@@ -38,9 +38,30 @@ public class FontInspectorGUI {
             this.mainContentPane.add(this.tableListPane.getTableListPanel(), BorderLayout.WEST);
             frame.setContentPane(this.mainContentPane);
             this.fontInspectorFrame = frame;
+            try {
+                if(isWindows()) {
+                    frame = (FontInspectorFrame) this.setWindowsLookAndFeel(frame);
+                }
+            } catch (Exception e) {
+                log.error("could not set look and feel", e);
+            }
             frame.repaint();
             frame.setVisible(true);
         });
+    }
+
+    public FontInspectorFrame setWindowsLookAndFeel(FontInspectorFrame frame) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        SwingUtilities.updateComponentTreeUI(frame);
+        return frame;
+    }
+
+    public boolean isWindows() {
+        String osName = System.getProperty("os.name");
+        boolean isWindows = osName.toLowerCase().indexOf("win") >= 0;
+        log.info("os.name {}", osName);
+        log.info("is windows {}", isWindows);
+        return isWindows;
     }
 
     public JPanel initContentPane() {
