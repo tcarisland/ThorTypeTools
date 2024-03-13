@@ -1,4 +1,4 @@
-package com.tcarisland.thortype.fontinspector.gui;
+package com.tcarisland.thortype.fontinspector.gui.components;
 
 import lombok.Data;
 import org.apache.fontbox.ttf.TTFTable;
