@@ -47,7 +47,7 @@ public class TableTreeService {
                 if(field.getType().isPrimitive()) {
                     childNode = createPrimitiveDatatypeTreeNode(table, field);
                 } else if(child != null && isSearchableType(field)) {
-                    childNode = createObjectTypeTreeNode(child, field);
+                    childNode = createObjectTypeTreeNode(child, field, table);
                 } else {
                     childNode = new DefaultMutableTreeNode(field.getName());
                 }
@@ -65,8 +65,8 @@ public class TableTreeService {
         return !isString && !isFont;
     }
 
-    public DefaultMutableTreeNode createObjectTypeTreeNode(Object o, Field f) {
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(f.getName());
+    public DefaultMutableTreeNode createObjectTypeTreeNode(Object o, Field f, TTFTable table) {
+        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(f.getName() + " " + f.getType());
         for(Field field : f.getType().getDeclaredFields()) {
             try {
                 if(isSearchableType(field)) {
@@ -81,8 +81,12 @@ public class TableTreeService {
                     } else if(child != null && List.class.isAssignableFrom(field.getType())) {
                         DefaultMutableTreeNode childNode = createListTypeTreeNode(child, field);
                         treeNode.add(childNode);
+                    } else if(child instanceof String){
+                        log.info("creating String for {}", field.getName());
+                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child.toString());
+                        treeNode.add(childNode);
                     } else {
-                        DefaultMutableTreeNode childNode = createObjectTypeTreeNode(child, field);
+                        DefaultMutableTreeNode childNode = createObjectTypeTreeNode(child, field, table);
                         treeNode.add(childNode);
                     }
                 }
@@ -91,27 +95,6 @@ public class TableTreeService {
             }
         }
         return treeNode;
-    }
-
-    public boolean isMap(Object o, Field f) {
-        boolean assignableMap = Map.class.isAssignableFrom(f.getType());
-        boolean isCastableMap = true;
-        try {
-            Map<?,?> map = (Map<?,?>) o;
-        } catch (Exception e) {
-            log.info("could not cast {} {}", o, f);
-        }
-        return assignableMap && isCastableMap;
-    }
-    public boolean isList(Object o, Field f) {
-        boolean assignableList = List.class.isAssignableFrom(f.getType());
-        boolean isCastableList = true;
-        try {
-            List<?> map = (List<?>) o;
-        } catch (Exception e) {
-            log.info("could not cast {} {}", o, f);
-        }
-        return assignableList && isCastableList;
     }
 
     private DefaultMutableTreeNode createListTypeTreeNode(Object o, Field field) {
@@ -138,7 +121,7 @@ public class TableTreeService {
     private DefaultMutableTreeNode createPrimitiveDatatypeTreeNode(Object table, Field field) throws IllegalAccessException {
         DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(field.getName());
         DefaultMutableTreeNode typeNode = new DefaultMutableTreeNode(field.getType().toString());
-        DefaultMutableTreeNode dataNode = new DefaultMutableTreeNode("" + field.get(table));
+        DefaultMutableTreeNode dataNode = new DefaultMutableTreeNode(field.getType() + " " + field.get(table));
         treeNode.add(typeNode);
         treeNode.add(dataNode);
         return treeNode;
