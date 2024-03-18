@@ -1,7 +1,7 @@
 class FontInfo:
     def __init__(self):
         self._fontname = None
-        self._glyphs = []
+        self._glyphs = {}
 
     @property
     def fontname(self):
@@ -16,7 +16,7 @@ class FontInfo:
         return self._glyphs
 
     def add_glyph(self, glyph, unicode_code):
-        self._glyphs.append((glyph, unicode_code))
+        self._glyphs[glyph] = unicode_code;
 
     def to_dict(self):
-        return {"fontname": self.fontname, "glyphs": self.glyphs}
+        return {"fontname": self.fontname, "glyphlen": len(self._glyphs), "glyphs": self._glyphs}

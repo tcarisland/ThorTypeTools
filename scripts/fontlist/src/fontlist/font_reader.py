@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from fontmodel.FontInfo import FontInfo
 import os
 import json
+import re
 
 # Load environment variables from .env file
 load_dotenv()
@@ -21,10 +22,11 @@ def extract_glyphs_and_unicode(font_path):
         font = TTFont(font_path)
         glyph_list = []
 
+        i = 0
         for table in font['cmap'].tables:
-            if table.format == 4:
-                for code, name in table.cmap.items():
-                    glyph_list.append((name, hex(code)))
+            #if table.format == 4:
+            for code, name in table.cmap.items():
+                glyph_list.append((name, hex(code)))
 
         return glyph_list
     except:
@@ -50,7 +52,11 @@ def list_font_files(base_path):
             fontinfolist.append(fontinfo)
     font_info_dicts = [font_info.to_dict() for font_info in fontinfolist]
     with open("../../fonts.json", "w") as json_file:
-        json_file.write(json.dumps(font_info_dicts, separators=(',', ':')))
+        output = json.dumps(font_info_dicts, indent=2)
+        output2 = re.sub(r'": \[\s+', '": [', output)
+        output3 = re.sub(r'",\s+', '", ', output2)
+        output4 = re.sub(r'"\s+\]', '"]', output3)
+        json_file.write(output4)
 
 
 list_font_files(THORTYPE_PATH)
